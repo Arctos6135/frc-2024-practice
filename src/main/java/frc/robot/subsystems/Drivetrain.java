@@ -2,14 +2,18 @@ package frc.robot.subsystems;
 
 import frc.robot.constants.CANBus;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
+
+import com.ctre.phoenix6.hardware.TalonFX;
+
 import edu.wpi.first.math.filter.SlewRateLimiter;
 
+
 public class Drivetrain extends SubsystemBase {
-    private final VictorSP rightMaster = new VictorSP(CANBus.RIGHT_MASTER);
-    private final VictorSP leftMaster = new VictorSP(CANBus.LEFT_MASTER);
-    private final VictorSP rightFollower = new VictorSP(CANBus.RIGHT_FOLLOWER);
-    private final VictorSP leftFollower = new VictorSP(CANBus.LEFT_FOLLOWER);
+    private final TalonFX rightMaster = new TalonFX(CANBus.RIGHT_MASTER);
+    private final TalonFX leftMaster = new TalonFX(CANBus.LEFT_MASTER);
+    private final TalonFX rightFollower = new TalonFX(CANBus.RIGHT_FOLLOWER);
+    private final TalonFX leftFollower = new TalonFX(CANBus.LEFT_FOLLOWER);
 
     private final SlewRateLimiter translationLimiter = new SlewRateLimiter(3);
     private final SlewRateLimiter rotationLimiter =  new SlewRateLimiter(2);
@@ -19,12 +23,11 @@ public class Drivetrain extends SubsystemBase {
 
 
     public Drivetrain(){
-        this.rightMaster.addFollower(this.rightFollower);
-        this.leftMaster.addFollower(this.leftFollower);
-
         this.rightMaster.setInverted(true);
+        this.leftMaster.setInverted(true);
     }
-    
+
+    @Override
     public void periodic() {
         double translation = translationLimiter.calculate(targetTranslation);
         double rotation = rotationLimiter.calculate(targetRotation);
@@ -37,7 +40,9 @@ public class Drivetrain extends SubsystemBase {
 
     private void setMotors(double left, double right) {
         leftMaster.set(left);
+        leftFollower.set(left);
         rightMaster.set(right);
+        rightFollower.set(right);
     }
 
     public void arcadeDrive(double translation, double rotation) {
