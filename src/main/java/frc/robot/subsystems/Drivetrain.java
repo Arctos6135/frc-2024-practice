@@ -30,8 +30,10 @@ public class Drivetrain extends SubsystemBase {
 
 
     public Drivetrain(){
-        this.rightMaster.setInverted(true);
+        this.rightMaster.setInverted(false);
+        this.rightFollower.setInverted(false);
         this.leftMaster.setInverted(true);
+        this.leftFollower.setInverted(true);
     }
 
     @Override
@@ -39,17 +41,22 @@ public class Drivetrain extends SubsystemBase {
         double translation = translationLimiter.calculate(targetTranslation);
         double rotation = rotationLimiter.calculate(targetRotation);
 
-        double left = (translation + rotation);
-        double right = (translation - rotation);
+        double left = (translation - rotation);
+        double right = (translation + rotation);
 
         setMotors(left, right);
     }
 
-    private void setMotors(double left, double right) {
+    public void setMotors(double left, double right) {
         leftMaster.set(TalonSRXControlMode.PercentOutput, left);
         leftFollower.set(TalonSRXControlMode.PercentOutput, left);
         rightMaster.set(TalonSRXControlMode.PercentOutput, right);
         rightFollower.set(TalonSRXControlMode.PercentOutput, right);
+
+        // leftMaster.set(/*TalonSRXControlMode.PercentOutput, */left);
+        // leftFollower.set(/*TalonSRXControlMode.PercentOutput, */left);
+        // rightMaster.set(/*TalonSRXControlMode.PercentOutput, */right);
+        // rightFollower.set(/*TalonSRXControlMode.PercentOutput, */right);
     }
 
     public void arcadeDrive(double translation, double rotation) {
