@@ -18,7 +18,7 @@ public class RobotContainer {
     // private final XboxController turnController = new XboxController(1);
 
     public RobotContainer() {
-        this.drivetrain.setDefaultCommand(new TeleopDrive(drivetrain, driverController, turnController, DriveConstants.DRIVE_FWD_REV, DriveConstants.DRIVE_LEFT_RIGHT));
+        this.drivetrain.setDefaultCommand(new TeleopDrive(drivetrain, driverController, DriveConstants.DRIVE_FWD_REV, DriveConstants.DRIVE_LEFT_RIGHT));
 
         configureBindings();
     }

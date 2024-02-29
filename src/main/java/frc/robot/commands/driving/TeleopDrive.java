@@ -34,9 +34,9 @@ public class TeleopDrive extends Command {
 
     @Override
     public void execute() {
-        double y = yDampener.dampen(controller.getRawAxis(Y_AXIS));
-        double x = xDampener.dampen(turnController.getRawAxis(X_AXIS));
+        double y = yDampener.dampen(controller.getRawAxis(XboxController.Axis.kLeftY.value));
+        double x = xDampener.dampen(controller.getRawAxis(XboxController.Axis.kRightX.value));
 
-        drivetrain.arcadeDrive(y * 0.85, x * 0.35);
+        drivetrain.arcadeDrive(y * 0.6, x * 0.3);
     }
 }
