@@ -10,6 +10,7 @@ public class TeleopDrive extends Command {
     private final Drivetrain drivetrain;
 
     private final XboxController controller;
+    // private final XboxController turnController;
 
     private final int X_AXIS;
     private final int Y_AXIS;
@@ -20,6 +21,7 @@ public class TeleopDrive extends Command {
     public TeleopDrive(Drivetrain drivetrain, XboxController controller, int fwdRevAxis, int leftRightAxis) {
         this.drivetrain = drivetrain;
         this.controller = controller;
+        // this.turnController = turnController;
 
         this.X_AXIS = leftRightAxis;
         this.Y_AXIS = fwdRevAxis;
@@ -33,8 +35,8 @@ public class TeleopDrive extends Command {
     @Override
     public void execute() {
         double y = yDampener.dampen(controller.getRawAxis(Y_AXIS));
-        double x = xDampener.dampen(controller.getRawAxis(X_AXIS));
+        double x = xDampener.dampen(turnController.getRawAxis(X_AXIS));
 
-        drivetrain.arcadeDrive(y * 0.85, x * 0.25);
+        drivetrain.arcadeDrive(y * 0.85, x * 0.35);
     }
 }
